@@ -1,32 +1,28 @@
 const User = require('../models/user');
 
 // GET /users — возвращает всех пользователей
-const getAllUsers = (async (req, res) => {
+const getAllUsers = (async (req, res, next) => {
   try {
     const users = await User.find({})
       .sort('name');
-    return res.status(200).send({ data: users });
-  } catch (error) {
-    // eslint-disable-next-line no-console
-    return console.error(error);
+    res.status(200).send({ data: users });
+  } catch (err) {
+    next(err);
   }
 });
 
 // GET /users/:userId - возвращает пользователя по _id
-const getUser = (async (req, res) => {
+const getUser = (async (req, res, next) => {
   try {
     const user = await User.findById(req.params.id);
-    if (!user) {
-      res.status(404).json({ message: 'Нет пользователя с таким id' });
-    }
-    return res.status(200).send({ data: user });
-  } catch (error) {
-    // eslint-disable-next-line no-console
-    return console.error(error);
+    res.status(200).send({ data: user });
+  } catch (err) {
+    next(err);
   }
 });
 
-const createUser = (async (req, res) => {
+// POST /users — создаёт пользователя
+const createUser = (async (req, res, next) => {
   try {
     const { name, about, avatar } = req.body;
     const user = await User.create({
@@ -34,17 +30,16 @@ const createUser = (async (req, res) => {
     });
     return res.status(201).send({
       data: {
-        _id: user._id,
         name: user.name,
         about: user.about,
         avatar: user.avatar,
       },
     });
   } catch (error) {
-    // eslint-disable-next-line no-console
-    return console.error(error);
+    return next(error);
   }
 });
+
 
 module.exports = {
   getAllUsers,

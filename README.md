@@ -19,10 +19,7 @@
 ```git clone https://github.com/Atm0Sphere94/project13.git```  
 2. Запустить установку зависимостей через терминал:  
 ```npm i```  
-3. Установить [MongoDB community edition](https://docs.mongodb.com/manual/administration/install-community/) и запустить
-$> mongod //_(Win)_
-или
-$> mongo или $> sudo systemctl start mongod //_(Linux и macOS)_
+3. Установить [MongoDB community edition](https://docs.mongodb.com/manual/administration/install-community/) и запустить daemon MongoDB
 
 4. Выбрать необходимый вариант запуска сервера:  
 ##### production - запуск сервера  

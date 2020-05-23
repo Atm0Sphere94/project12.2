@@ -1,50 +1,41 @@
 const Card = require('../models/card');
 
 // GET /cards — возвращает все карточки
-const getAllCards = (async (req, res) => {
+const getAllCards = (async (req, res, next) => {
   try {
-    const cards = await Card.find({})
-      .sort({ createdAt: -1 })
-      .populate('likes')
-      .populate('owner');
+    const cards = await Card.find({});
     return res.status(200).send({ data: cards });
   } catch (error) {
-    // eslint-disable-next-line no-console
-    return console.error(error);
+    return next(error);
   }
 });
 
 // POST /cards — создаёт карточку
-const postCard = (async (req, res) => {
+const postCard = (async (req, res, next) => {
   try {
     const { name, link } = req.body;
     const card = await Card.create({ name, link, owner: req.user._id });
     return res.status(201).send({ data: card });
   } catch (error) {
-    // eslint-disable-next-line no-console
-    return console.error(error);
+    return next(error);
   }
 });
 
 // DELETE /cards/:cardId — удаляет карточку по идентификатору
-const deleteCard = (async (req, res) => {
+const deleteCard = (async (req, res, next) => {
   try {
     const { id } = req.params;
     const card = await Card.findById(id);
     if (!card) {
-      res.status(404).json({ message: 'Карточка не найдена' });
+      return res.status(404).json({ message: 'Карточка не найдена' });
     }
-    if (!card.owner.equals(req.user._id)) {
-      res.status(404).json({ message: 'Нет карточки с таким id' });
-    }
-    const cardToDelete = await Card.findByIdAndRemove(id)
-      .populate('likes').populate('owner');
+    const cardToDelete = await Card.findByIdAndRemove(id);
     return res.status(200).send({ message: 'card deleted:', data: cardToDelete });
   } catch (error) {
-    // eslint-disable-next-line no-console
-    return console.error(error);
+    return next(error);
   }
 });
+
 
 module.exports = {
   getAllCards,

@@ -1,10 +1,13 @@
-const router = require('express').Router();
+const router = require('express').Router({ mergeParams: true });
 
 const {
-  getAllUsers, getUser,
+  getAllUsers, getUser, createUser,
 } = require('../controllers/users');
 
-router.get('/:id', getUser);
+
+router.get('/users/:id', getUser);
 router.get('/users', getAllUsers);
+router.post('/users', createUser);
+
 
 module.exports = router;
