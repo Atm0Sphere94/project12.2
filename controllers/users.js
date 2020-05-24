@@ -14,8 +14,12 @@ const getAllUsers = (async (req, res, next) => {
 // GET /users/:userId - возвращает пользователя по _id
 const getUser = (async (req, res, next) => {
   try {
-    const user = await User.findById(req.params.id);
-    res.status(200).send({ data: user });
+    if (req.params.id) {
+      const user = await User.findById(req.params.id);
+      res.status(200).send({ data: user });
+    } else {
+      next();
+    }
   } catch (err) {
     next(err);
   }

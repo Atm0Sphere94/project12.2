@@ -9,12 +9,12 @@ const errorHandler = require('./controllers/errorHandler');
 
 connectDB();
 
-// app.use((req, res, next) => {
-//   req.user = {
-//     _id: '5ec28556734fdc274870584d',
-//   };
-//   next();
-// });
+app.use((req, res, next) => {
+  req.user = {
+    _id: '5ec28556734fdc274870584d',
+  };
+  next();
+});
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
