@@ -5,7 +5,9 @@ const app = express();
 
 const { PORT, connectDB } = require('./config');
 const routeAll = require('./routes/routes');
+
 const errorHandler = require('./controllers/errorHandler');
+
 
 connectDB();
 

@@ -1,4 +1,5 @@
 const User = require('../models/user');
+const NotFoundError = require('./errorHandler');
 
 // GET /users — возвращает всех пользователей
 const getAllUsers = (async (req, res, next) => {
@@ -14,12 +15,11 @@ const getAllUsers = (async (req, res, next) => {
 // GET /users/:userId - возвращает пользователя по _id
 const getUser = (async (req, res, next) => {
   try {
-    if (req.params.id) {
-      const user = await User.findById(req.params.id);
-      res.status(200).send({ data: user });
-    } else {
-      next();
+    const user = await User.findById(req.params.id);
+    if (!user) {
+      throw new NotFoundError('Нет пользователя с таким ID');
     }
+    res.status(200).send({ data: user });
   } catch (err) {
     next(err);
   }
