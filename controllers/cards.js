@@ -28,7 +28,7 @@ const deleteCard = (async (req, res, next) => {
     const { id } = req.params;
     const card = await Card.findById(id);
     if (!card) {
-      throw new NotFoundError('Нет пользователя с таким ID');
+      throw new NotFoundError('Карточка не найдена');
     }
     const cardToDelete = await Card.findByIdAndRemove(id);
     return res.status(200).send({ message: 'card deleted:', data: cardToDelete });
