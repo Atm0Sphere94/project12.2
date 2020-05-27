@@ -1,4 +1,5 @@
 const Card = require('../models/card');
+const NotFoundError = require('../errors/NotFoundError');
 
 // GET /cards — возвращает все карточки
 const getAllCards = (async (req, res, next) => {
@@ -27,7 +28,7 @@ const deleteCard = (async (req, res, next) => {
     const { id } = req.params;
     const card = await Card.findById(id);
     if (!card) {
-      return res.status(404).json({ message: 'Карточка не найдена' });
+      throw new NotFoundError('Нет пользователя с таким ID');
     }
     const cardToDelete = await Card.findByIdAndRemove(id);
     return res.status(200).send({ message: 'card deleted:', data: cardToDelete });
