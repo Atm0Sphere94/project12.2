@@ -7,3 +7,15 @@ const errorHandler = (error, req, res, next) => {
 };
 
 module.exports = errorHandler;
+<<<<<<< HEAD
+=======
+
+class NotFoundError extends Error {
+  constructor(message) {
+    super(message);
+    this.statusCode = 404;
+  }
+}
+
+module.exports = NotFoundError;
+>>>>>>> develop
