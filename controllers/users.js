@@ -1,5 +1,5 @@
 const User = require('../models/user');
-const NotFoundError = require('./errorHandler');
+const NotFoundError = require('../errors/NotFoundError');
 
 // GET /users — возвращает всех пользователей
 const getAllUsers = (async (req, res, next) => {
