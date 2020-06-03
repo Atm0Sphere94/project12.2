@@ -1,5 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const login = require('./controllers/users');
+const createUser = require('./controllers/users');
 
 const app = express();
 
@@ -11,17 +13,12 @@ const errorHandler = require('./errors/errorHandler');
 
 connectDB();
 
-app.use((req, res, next) => {
-  req.user = {
-    _id: '5ec28556734fdc274870584d',
-  };
-  next();
-});
-
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(routeAll);
 app.use(errorHandler);
+app.post('/signin', login);
+app.post('/signup', createUser);
 
 app.listen(PORT, () => {
   // eslint-disable-next-line no-console
